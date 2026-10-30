@@ -33,7 +33,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start; /* Изменено, чтобы контент прижимался к верху */
             padding: 20px;
             box-sizing: border-box;
             background: var(--bg-animation-dark);
@@ -74,11 +74,14 @@
             color: var(--btn-text);
         }
 
-        /* Шапка: Логотип и молния */
+        /* Шапка: Надпись и молния в одну строку */
         header {
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; 
             padding-top: 60px; 
-            margin-top: 20px;
+            margin-bottom: 0;
         }
 
         .logo {
@@ -86,22 +89,32 @@
             font-weight: 900;
             letter-spacing: 5px;
             margin: 0;
+            line-height: 1;
         }
 
         .lightning {
             font-size: 2.5rem;
-            margin-top: 5px;
-            filter: grayscale(100%); /* Делает эмодзи молнии черно-белым */
+            filter: grayscale(100%);
+            line-height: 1;
         }
 
-        /* Основной контейнер для контента */
-        main {
+        /* Блок контента перенесен выше (уменьшен margin-top до 20px) */
+        .content-wrapper {
             width: 100%;
             max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            margin: 40px 0;
+            align-items: center;
+            margin-top: 20px; 
+            margin-bottom: 40px;
+        }
+
+        /* Основной контейнер для карточек */
+        main {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px; /* Прежнее расстояние между рамками */
         }
 
         /* Стили для рамок (карточек) */
@@ -150,9 +163,10 @@
             margin-top: 10px;
         }
 
-        /* Подвал: Ссылка-надпись FRINTER (КЛИКАБЕЛЬНАЯ) */
+        /* Подвал: Сохранено прежнее расстояние от рамки */
         footer {
-            margin-bottom: 20px;
+            margin-top: 30px; 
+            text-align: center;
         }
 
         .footer-link {
@@ -168,7 +182,7 @@
         }
 
         .footer-link:hover {
-            opacity: 0.6; /* Слегка подсвечивается при наведении */
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -179,30 +193,33 @@
 
     <!-- Верхняя часть -->
     <header>
-        <h1 class="logo">FRINTER</h1>
+        <div class="logo">FRINTER</div>
         <div class="lightning">⚡</div>
     </header>
 
-    <!-- Основной контент -->
-    <main>
-        <!-- Первая рамка -->
-        <div class="card">
-            <h2>ваша подписка</h2>
-            <span class="arrow">⬇</span>
-            <button class="copy-btn" id="copyBtn">скопировать</button>
-        </div>
+    <!-- Обертка для карточек и подвала, смещенная выше -->
+    <div class="content-wrapper">
+        <!-- Основной контент -->
+        <main>
+            <!-- Первая рамка -->
+            <div class="card">
+                <h2>ваша подписка</h2>
+                <span class="arrow">⬇</span>
+                <button class="copy-btn" id="copyBtn">скопировать</button>
+            </div>
 
-        <!-- Вторая рамка -->
-        <div class="card">
-            <h2>сервера в подписке</h2>
-            <div class="servers-list">🇫🇮 Финляндия и другие</div>
-        </div>
-    </main>
+            <!-- Вторая рамка -->
+            <div class="card">
+                <h2>сервера в подписке</h2>
+                <div class="servers-list">🇫🇮 Финляндия и другие</div>
+            </div>
+        </main>
 
-    <!-- Нижняя часть -->
-    <footer>
-        <a href="https://t.me" target="_blank" class="footer-link">FRINTER</a>
-    </footer>
+        <!-- Нижняя часть -->
+        <footer>
+            <a href="https://t.me" target="_blank" class="footer-link">FRINTER</a>
+        </footer>
+    </div>
 
     <script>
         // Логика кнопки копирования
