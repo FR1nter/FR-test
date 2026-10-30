@@ -174,15 +174,16 @@
     <main>
         <!-- Первая рамка -->
         <div class="card">
-            <h2>ваша подписка</h2>
-            <span class="arrow">⬇</span>
-            <button class="copy-btn" id="copyBtn">скопировать</button>
+            <h2>⭐ Ваша подписка ⬇</h2>
+            <button class="copy-btn" id="copyBtn">Скопировать</button>
         </div>
 
         <!-- Вторая рамка -->
         <div class="card">
-            <h2>сервера в подписке</h2>
-            <div class="servers-list">🇫🇮 Финляндия и другие</div>
+            <h2>Сервера в подписке:</h2>
+            <div class="servers-list">🇫🇮 Финляндия</div>
+            <div class="servers-list">🇷🇺 Россия</div>
+            div class="servers-list">и другие ⚡</div>
         </div>
     </main>
 
@@ -192,15 +193,15 @@
     <script>
         // Логика кнопки копирования
         const copyBtn = document.getElementById('copyBtn');
-        const textToCopy = "привет";
+        const textToCopy = "...";
 
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(textToCopy).then(() => {
-                copyBtn.textContent = 'скопировано';
+                copyBtn.textContent = 'Скопировано ✅';
                 
                 // Возвращаем текст обратно через 2 секунды
                 setTimeout(() => {
-                    copyBtn.textContent = 'скопировать';
+                    copyBtn.textContent = 'Скопировать';
                 }, 2000);
             }).catch(err => {
                 console.error('Ошибка при копировании: ', err);
