@@ -67,6 +67,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease;
+            z-index: 10;
         }
         .theme-toggle:hover {
             background: var(--text-color);
@@ -76,7 +77,8 @@
         /* Шапка: Логотип и молния */
         header {
             text-align: center;
-            margin-top: 40px;
+            padding-top: 60px; 
+            margin-top: 20px;
         }
 
         .logo {
@@ -148,14 +150,25 @@
             margin-top: 10px;
         }
 
-        /* Подвал: Полупрозрачная надпись */
+        /* Подвал: Ссылка-надпись FRINTER (КЛИКАБЕЛЬНАЯ) */
         footer {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            opacity: 0.2;
             margin-bottom: 20px;
+        }
+
+        .footer-link {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            opacity: 0.2;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: opacity 0.3s ease, color 0.5s ease;
             user-select: none;
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            opacity: 0.6; /* Слегка подсвечивается при наведении */
         }
     </style>
 </head>
@@ -174,34 +187,35 @@
     <main>
         <!-- Первая рамка -->
         <div class="card">
-            <h2>⭐ Ваша подписка ⬇</h2>
-            <button class="copy-btn" id="copyBtn">Скопировать</button>
+            <h2>ваша подписка</h2>
+            <span class="arrow">⬇</span>
+            <button class="copy-btn" id="copyBtn">скопировать</button>
         </div>
 
         <!-- Вторая рамка -->
         <div class="card">
-            <h2>Сервера в подписке:</h2>
-            <div class="servers-list">🇫🇮 Финляндия</div>
-            <div class="servers-list">🇷🇺 Россия</div>
-            div class="servers-list">и другие ⚡</div>
+            <h2>сервера в подписке</h2>
+            <div class="servers-list">🇫🇮 Финляндия и другие</div>
         </div>
     </main>
 
     <!-- Нижняя часть -->
-    <footer>FRINTER</footer>
+    <footer>
+        <a href="https://t.me" target="_blank" class="footer-link">FRINTER</a>
+    </footer>
 
     <script>
         // Логика кнопки копирования
         const copyBtn = document.getElementById('copyBtn');
-        const textToCopy = "...";
+        const textToCopy = "привет";
 
         copyBtn.addEventListener('click', () => {
             navigator.clipboard.writeText(textToCopy).then(() => {
-                copyBtn.textContent = 'Скопировано ✅';
+                copyBtn.textContent = 'скопировано';
                 
                 // Возвращаем текст обратно через 2 секунды
                 setTimeout(() => {
-                    copyBtn.textContent = 'Скопировать';
+                    copyBtn.textContent = 'скопировать';
                 }, 2000);
             }).catch(err => {
                 console.error('Ошибка при копировании: ', err);
