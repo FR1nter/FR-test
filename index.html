@@ -7,11 +7,11 @@
     <style>
         /* Переменные для быстрой смены темы */
         :root {
-            --bg-animation-light: linear-gradient(270deg, #ffffff, #e0e0e0, #ffffff);
-            --bg-animation-dark: linear-gradient(270deg, #121212, #2c2c2c, #121212);
+            --bg-animation-light: linear-gradient(45deg, #ffffff, #f0f0f0, #e0e0e0, #f5f5f5, #ffffff);
+            --bg-animation-dark: linear-gradient(45deg, #0a0a0a, #1a1a1a, #262626, #141414, #0a0a0a);
             --text-color: #ffffff;
             --border-color: #ffffff;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.04);
             --btn-bg: #ffffff;
             --btn-text: #000000;
         }
@@ -19,12 +19,12 @@
         [data-theme="light"] {
             --text-color: #000000;
             --border-color: #000000;
-            --card-bg: rgba(0, 0, 0, 0.05);
+            --card-bg: rgba(0, 0, 0, 0.04);
             --btn-bg: #000000;
             --btn-text: #ffffff;
         }
 
-        /* Общие стили и плавная анимация фона */
+        /* Общие стили и анимация фона "покрывало" */
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -37,18 +37,20 @@
             padding: 20px;
             box-sizing: border-box;
             background: var(--bg-animation-dark);
-            background-size: 400% 400%;
-            animation: gradientBg 15s ease infinite;
+            background-size: 600% 600%;
+            animation: blanketWave 18s ease-in-out infinite;
             transition: color 0.5s ease;
+            overflow-x: hidden;
         }
 
         [data-theme="light"] body {
             background: var(--bg-animation-light);
-            background-size: 400% 400%;
-            animation: gradientBg 15s ease infinite;
+            background-size: 600% 600%;
+            animation: blanketWave 18s ease-in-out infinite;
         }
 
-        @keyframes gradientBg {
+        /* Диагональная плавная анимация перелива */
+        @keyframes blanketWave {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -74,7 +76,7 @@
             color: var(--btn-text);
         }
 
-        /* Шапка: Логотип и молния на одной строке */
+        /* Шапка */
         header {
             display: flex;
             align-items: center;
@@ -97,16 +99,16 @@
             line-height: 1;
         }
 
-        /* Блок с рамкой (контентом) */
+        /* Блок с рамкой */
         main {
             width: 100%;
             max-width: 420px;
-            margin-top: 45px; 
+            margin-top: 55px; 
             display: flex;
             flex-direction: column;
         }
 
-        /* Стили для рамки (карточки) */
+        /* Стили для рамки с поддержкой анимации */
         .card {
             border: 2px solid var(--border-color);
             border-radius: 20px;
@@ -114,19 +116,36 @@
             text-align: center;
             background-color: var(--card-bg);
             backdrop-filter: blur(5px);
-            transition: border-color 0.5s ease, background-color 0.5s ease;
+            transition: border-color 0.5s ease, background-color 0.5s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* Класс, который активируется через JS при клике на 4 секунды */
+        .card.animating-border {
+            animation: greyBorderGlow 4s ease-in-out;
+        }
+
+        /* Анимация перелива краев оттенками серого */
+        @keyframes greyBorderGlow {
+            0% { border-color: var(--border-color); }
+            25% { border-color: #b3b3b3; }
+            50% { border-color: #555555; }
+            75% { border-color: #888888; }
+            100% { border-color: var(--border-color); }
         }
 
         .card h2 {
             margin: 0 0 15px 0;
             font-size: 1.3rem;
             font-weight: 600;
+            pointer-events: none; /* Чтобы клик проходил сквозь текст на саму рамку */
         }
 
         .arrow {
             font-size: 1.3rem;
             display: block;
             margin-bottom: 15px;
+            pointer-events: none;
         }
 
         /* Кнопка копирования */
@@ -151,11 +170,11 @@
             transform: scale(0.95);
         }
 
-        /* Подвал: Ссылка-надпись FRINTER отправлена в самый низ страницы */
+        /* Подвал: Приподнят на 20% выше за счет нижнего отступа */
         footer {
             margin-top: auto; 
             padding-top: 40px;
-            padding-bottom: 10px;
+            padding-bottom: 20vh; /* Поднимает элемент выше над нижним краем */
             text-align: center;
         }
 
@@ -163,7 +182,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 10px; /* Расстояние между самолетиком и текстом */
+            gap: 10px;
             font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 4px;
@@ -178,15 +197,13 @@
             opacity: 0.7;
         }
 
-        /* Иконка синего самолетика Telegram */
         .tg-icon {
             width: 22px;
             height: 22px;
-            fill: #0088cc; /* Фирменный синий цвет Telegram */
-            transition: filter 0.5s ease;
+            fill: #0088cc;
         }
 
-        /* Адаптивность под экраны Компьютеров (ПК) */
+        /* Адаптивность под ПК */
         @media (min-width: 768px) {
             header {
                 padding-top: 80px;
@@ -201,7 +218,6 @@
             }
             main {
                 max-width: 550px;
-                margin-top: 55px;
             }
             .card {
                 padding: 35px;
@@ -242,21 +258,19 @@
         <div class="lightning">⚡</div>
     </header>
 
-    <!-- Основной контент (Рамка) -->
+    <!-- Основной контент -->
     <main>
-        <div class="card">
+        <div class="card" id="mainCard">
             <h2>ваша подписка</h2>
             <span class="arrow">⬇</span>
             <button class="copy-btn" id="copyBtn">скопировать</button>
         </div>
     </main>
 
-    <!-- Нижняя часть в самом низу страницы -->
+    <!-- Нижняя часть -->
     <footer>
         <a href="https://t.me" target="_blank" class="footer-link">
-            <!-- Синий векторный самолетик Telegram -->
             <svg class="tg-icon" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15.15-.3.33-.44.52l-6.84 8.7c-.15.2-.38.3-.61.3s-.46-.1-.61-.3l-2.52-3.15c-.31-.39-.25-.97.14-1.28.39-.31.97-.25 1.28.14l1.71 2.14 6.13-7.81c.31-.4.89-.46 1.28-.15.4.31.46.89.15 1.28-1.57 2.01 1.33-1.69 1.33-1.69z" style="display:none;"/>
                 <path d="M21.94 5.65c-.17-.3-.48-.5-.83-.53l-18-1.5c-.44-.04-.85.19-1.02.6-.17.41-.05.88.29 1.17l4.5 3.9c.2.17.47.24.73.18l4.47-1.03-3.12 3.93c-.15.19-.2.44-.15.68l1.5 6.5c.08.36.35.65.71.74.07.02.14.03.21.03.29 0 .57-.13.75-.36l4.2-5.4 4.14 3.03c.23.17.52.22.79.13.27-.09.48-.3.56-.57l3.5-12c.11-.38-.01-.79-.25-1.02zm-14.3 2.87l-2.48-2.15 13.04.14-10.56 2.01zm6.05 4.3l-2.07 2.61-.48-2.08 2.55-.53z"/>
             </svg>
             FRINTER
@@ -264,15 +278,29 @@
     </footer>
 
     <script>
+        // Анимация краев рамки при нажатии
+        const mainCard = document.getElementById('mainCard');
+        
+        mainCard.addEventListener('click', (e) => {
+            // Чтобы анимация не срабатывала повторно, если она уже идет
+            if (!mainCard.classList.contains('animating-border')) {
+                mainCard.classList.add('animating-border');
+                
+                // Удаляем класс ровно через 4 секунды (время окончания анимации)
+                setTimeout(() => {
+                    mainCard.classList.remove('animating-border');
+                }, 4000);
+            }
+        });
+
         // Логика кнопки копирования
         const copyBtn = document.getElementById('copyBtn');
         const textToCopy = "привет";
 
-        copyBtn.addEventListener('click', () => {
+        copyBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Предотвращает дублирование клика на саму рамку
             navigator.clipboard.writeText(textToCopy).then(() => {
                 copyBtn.textContent = 'скопировано';
-                
-                // Возвращаем текст обратно через 2 секунды
                 setTimeout(() => {
                     copyBtn.textContent = 'скопировать';
                 }, 2000);
@@ -281,7 +309,7 @@
             });
         });
 
-        // Логика переключения тем (светлая / тёмная)
+        // Логика переключения тем
         const themeToggle = document.getElementById('themeToggle');
         const htmlElement = document.documentElement;
 
@@ -291,8 +319,8 @@
                 htmlElement.removeAttribute('data-theme');
             } else {
                 htmlElement.setAttribute('data-theme', 'light');
-            }
-        });
+}
+}); 
     </script>
 </body>
 </html>
