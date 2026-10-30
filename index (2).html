@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRINTER</title>
+    <style>
+        /* Переменные для быстрой смены темы */
+        :root {
+            --bg-animation-light: linear-gradient(270deg, #ffffff, #e0e0e0, #ffffff);
+            --bg-animation-dark: linear-gradient(270deg, #121212, #2c2c2c, #121212);
+            --text-color: #ffffff;
+            --border-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --btn-bg: #ffffff;
+            --btn-text: #000000;
+        }
+
+        [data-theme="light"] {
+            --text-color: #000000;
+            --border-color: #000000;
+            --card-bg: rgba(0, 0, 0, 0.05);
+            --btn-bg: #000000;
+            --btn-text: #ffffff;
+        }
+
+        /* Общие стили и плавная анимация фона */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            box-sizing: border-box;
+            background: var(--bg-animation-dark);
+            background-size: 400% 400%;
+            animation: gradientBg 15s ease infinite;
+            transition: color 0.5s ease;
+        }
+
+        [data-theme="light"] body {
+            background: var(--bg-animation-light);
+            background-size: 400% 400%;
+            animation: gradientBg 15s ease infinite;
+        }
+
+        @keyframes gradientBg {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Кнопка переключения темы */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .theme-toggle:hover {
+            background: var(--text-color);
+            color: var(--btn-text);
+        }
+
+        /* Шапка: Надпись и молния в одну строку */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; 
+            padding-top: 80px; /* Увеличено, чтобы дать больше пространства сверху на ПК */
+            margin-bottom: 0;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .lightning {
+            font-size: 2.5rem;
+            filter: grayscale(100%);
+            line-height: 1;
+        }
+
+        /* Блок контента: адаптирован под ПК и мобильные, увеличен отступ от заголовка */
+        .content-wrapper {
+            width: 100%;
+            max-width: 500px; /* Увеличено для лучшего вида на компьютерах */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 45px; /* Немножко отдалили от заголовка */
+            margin-bottom: 40px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        /* Основной контейнер для карточек */
+        main {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Стили для рамок (карточек) */
+        .card {
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 35px 25px; /* Чуть увеличили вертикальные отступы для ПК */
+            text-align: center;
+            background-color: var(--card-bg);
+            backdrop-filter: blur(5px);
+            transition: border-color 0.5s ease, background-color 0.5s ease;
+        }
+
+        .card h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.6rem; /* Слегка крупнее для баланса на больших экранах */
+            font-weight: 600;
+        }
+
+        .arrow {
+            font-size: 1.6rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* Кнопка копирования: теперь отзывчива на наведение на ПК */
+        .copy-btn {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+            width: 70%;
+            max-width: 250px;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Подвал */
+        footer {
+            margin-top: 35px; 
+            text-align: center;
+        }
+
+        .footer-link {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            opacity: 0.2;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: opacity 0.3s ease, color 0.5s ease;
+            user-select: none;
+            display: inline-block;
+        }
+
+        .footer-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Медиа-запрос для компьютеров и больших экранов (адаптивность) */
+        @media (min-width: 768px) {
+            header {
+                padding-top: 100px;
+            }
+            .logo {
+                font-size: 4rem;
+                letter-spacing: 8px;
+            }
+            .lightning {
+                font-size: 3.5rem;
+            }
+            .content-wrapper {
+                max-width: 550px;
+                margin-top: 55px; /* Идеальный баланс расстояния на ПК */
+            }
+            .card h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Переключатель темы -->
+    <button class="theme-toggle" id="themeToggle">Сменить тему</button>
+
+    <!-- Верхняя часть -->
+    <header>
+        <div class="logo">FRINTER</div>
+        <div class="lightning">⚡</div>
+    </header>
+
+    <!-- Обертка для карточки и подвала -->
+    <div class="content-wrapper">
+        <!-- Основной контент -->
+        <main>
+            <!-- Первая рамка (Единственная) -->
+            <div class="card">
+                <h2>ваша подписка</h2>
+                <span class="arrow">⬇</span>
+                <button class="copy-btn" id="copyBtn">скопировать</button>
+            </div>
+        </main>
+
+        <!-- Нижняя часть -->
+        <footer>
+            <a href="https://t.me/FR1nter" target="_blank" class="footer-link">FRINTER</a>
+        </footer>
+    </div>
+
+    <script>
+        // Логика кнопки копирования
+        const copyBtn = document.getElementById('copyBtn');
+        const textToCopy = "привет";
+
+        copyBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                copyBtn.textContent = 'скопировано';
+                
+                // Возвращаем текст обратно через 2 секунды
+                setTimeout(() => {
+                    copyBtn.textContent = 'скопировать';
+                }, 2000);
+            }).catch(err => {
+                console.error('Ошибка при копировании: ', err);
+            });
+        });
+
+        // Логика переключения тем (светлая / тёмная)
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                htmlElement.removeAttribute('data-theme');
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+            }
+        });
+    </script>
+</body>
+</html>
